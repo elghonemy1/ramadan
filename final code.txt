@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>زينة رمضان العلوية</title>
+    <style>
+        /* التنسيق الأساسي */
+        .ramadan-decor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            z-index: 9999;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        /* تصميم الفوانيس المتلاصقة */
+        .lantern {
+            width: 50%;
+            height: 100%;
+            background: url('https://i.imgur.com/V1YzMb4.png') no-repeat;
+            background-size: cover;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* الفانوس الأيمن */
+        .lantern.right {
+            background-position: right center;
+            animation-delay: 0s;
+        }
+
+        /* الفانوس الأيسر */
+        .lantern.left {
+            background-position: left center;
+            animation-delay: 0.5s;
+        }
+
+        /* حركة طفو بسيطة */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+
+        /* تعديلات الجوال */
+        @media (max-width: 768px) {
+            .ramadan-decor { height: 100px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="ramadan-decor">
+        <div class="lantern right"></div>
+        <div class="lantern left"></div>
+    </div>
+
+    <script>
+        // نظام التفعيل التلقائي
+        const startDate = new Date('2025-02-28');
+        const endDate = new Date('2025-03-31');
+        const decor = document.querySelector('.ramadan-decor');
+
+        function checkDate() {
+            const now = new Date();
+            decor.style.display = (now >= startDate && now <= endDate) ? 'flex' : 'none';
+        }
+
+        // تحميل الصورة مسبقًا
+        new Image().src = 'https://i.imgur.com/V1YzMb4.png';
+        
+        window.addEventListener('load', checkDate);
+        setInterval(checkDate, 3600000); // تحديث كل ساعة
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منيو قشطة وعسل</title>
+  <!-- Preload لصورة الخلفية -->
+  <link rel="preload" as="image" href="https://i.imgur.com/PDgHN0A.png">
+  <!-- إضافة خط "Cairo" -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+  <!-- إضافة Font Awesome للأيقونات -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+        integrity="sha512-pXYH5X5ED+PtE5wZymz/Uu4Wh9Jg+gZ0+1Z9xdM2Y6p+CnHq7s3X59+VxF2FE3UlPKzE0czNwA83jE5bM4Q3Uw==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- إضافة مكتبة EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <!-- إضافة AngularJS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <style>
+    /* إعدادات عامة */
+    body {
+      margin: 0;
+      font-family: 'Cairo', sans-serif;
+      overflow: hidden;
+      background: #f0f0f0;
+    }
+    /* شاشة الاستقبال */
+    #splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 10;
+    }
+    #splash-screen::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://i.imgur.com/PDgHN0A.png') center/cover no-repeat;
+      animation: bgFadeOut 3s ease-out 2s forwards;
+      z-index: -1;
+    }
+    .logo-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .main-logo {
+      max-width: 40%;
+      height: auto;
+      animation: fadeIn 2s ease-in, bounce 2s infinite ease-in-out, fadeOut 1s ease-out 4s forwards;
+    }
+    .second-logo {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      max-width: 10%;
+      height: auto;
+      opacity: 0;
+      animation: fadeInMin 1s ease-in 1.5s forwards;
+    }
+    .loading-text {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: #333;
+    }
+    .loading-text .dot {
+      opacity: 0;
+      animation: blink 1.5s infinite;
+    }
+    .loading-text .dot:nth-child(2) { animation-delay: 0.3s; }
+    .loading-text .dot:nth-child(3) { animation-delay: 0.6s; }
+    @keyframes blink {
+      0%, 20% { opacity: 0; }
+      50% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @keyframes fadeIn { 
+      0% { opacity: 0; transform: scale(0.8); } 
+      100% { opacity: 1; transform: scale(1); } 
+    }
+    @keyframes fadeInMin { 
+      0% { opacity: 0; transform: scale(0.95); } 
+      100% { opacity: 1; transform: scale(1); } 
+    }
+    @keyframes bounce { 
+      0%, 100% { transform: translateY(0); } 
+      50% { transform: translateY(-5px); } 
+    }
+    @keyframes bgFadeOut { 
+      0% { opacity: 1; } 
+      100% { opacity: 0; } 
+    }
+    @keyframes fadeOut { 
+      0% { opacity: 1; } 
+      100% { opacity: 0; } 
+    }
+    /* حاوية عرض المنيو */
+    #menu-container {
+      display: none;
+      width: 100%;
+      height: 100vh;
+      overflow-y: auto;
+      background: url('https://example.com/your-background-image.jpg') no-repeat center center fixed;
+      background-size: cover;
+    }
+    #pdf-container { padding-bottom: 0; }
+    /* عرض صفحات PDF تملأ الشاشة بالكامل */
+    .pdf-page {
+      display: block;
+      margin: 0 auto;
+      background: transparent;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: none;
+      background: transparent;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
+    @media (max-width: 768px) {
+      .main-logo { max-width: 70%; }
+      .second-logo { max-width: 15%; bottom: 5px; left: 5px; }
+      .loading-text { font-size: 1rem; }
+      #contact-buttons a { padding: 4px; }
+      .contact-logo { height: 18px; }
+    }
+    /* أزرار التواصل */
+    #contact-buttons {
+      position: fixed;
+      bottom: 10px;
+      right: 20px;
+      display: flex;
+      flex-direction: row;
+      gap: 5px;
+      z-index: 20;
+    }
+    .contact-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      padding: 4px;
+      border-radius: 50%;
+      transition: transform 0.2s ease-in-out;
+    }
+    .contact-btn:hover { transform: scale(1.1); }
+    .contact-logo {
+      height: 32px;
+      width: auto;
+      display: block;
+      animation: rotatePulse 2s infinite ease-in-out;
+    }
+    @keyframes rotatePulse {
+      0% { transform: rotate(0deg); }
+      50% { transform: rotate(10deg); }
+      100% { transform: rotate(0deg); }
+    }
+    /* زر المصمم مع نص "designed by" فوق اللوجو */
+    #designer-button {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      z-index: 30;
+      display: none;
+      text-align: center;
+    }
+    #designer-button a img {
+      height: 40px;
+      width: auto;
+      cursor: pointer;
+      transition: transform 0.3s;
+      filter: drop-shadow(0px 0px 2px rgba(0,0,0,0.5));
+    }
+    #designer-button a img:hover { transform: scale(1.1); }
+    #designer-button .designer-text {
+      font-size: 0.5rem;
+      color: #333;
+      margin-bottom: 2px;
+      text-align: center;
+      position: relative;
+      top: 8px;
+    }
+    /* زر البحث */
+    #search-bar {
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 25;
+      display: none;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 10px;
+      border-radius: 25px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+    #search-bar:hover {
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+    #search-input {
+      width: 200px;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    #search-input:focus {
+      border-color: #3498db;
+      box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+    }
+    /* زر الشكاوى والاقتراحات */
+    #suggestions-button {
+      position: fixed;
+      bottom: 60px;
+      right: 20px;
+      z-index: 40;
+      display: none;
+      background: #3498db;
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    /* زر عناوين الفروع */
+    #branches-button {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      z-index: 40;
+      display: none;
+      background: #3498db;
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    /* نافذة الاقتراحات */
+    #suggestions-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    #suggestions-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+      background: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+    }
+    #suggestions-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    #suggestions-form input,
+    #suggestions-form textarea {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    #suggestions-form textarea {
+      resize: none;
+      height: 100px;
+    }
+    #suggestions-form button {
+      background: #3498db;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #suggestions-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #fff;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    /* نافذة عناوين الفروع */
+    #branches-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    #branches-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+      background: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+    }
+    #branches-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    #branches-list li {
+      margin-bottom: 10px;
+      font-size: 1rem;
+      color: #333;
+    }
+    #branches-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #fff;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    /* نافذة Modal لعرض الصورة المكبرة مع اسم الصنف */
+    #modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    #modal-content {
+      position: relative;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 90%;
+      max-height: 90%;
+      overflow: auto;
+    }
+    #modal-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+    #modal-caption {
+      font-family: 'Cairo', sans-serif;
+      font-size: 1.5rem;
+      margin-top: 10px;
+      color: #333;
+    }
+    #modal-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #fff;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    /* أزرار التنقل بين الصفحات */
+    .nav-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.8);
+      border: 2px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 1.5rem;
+      color: #3498db;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease, transform 0.3s ease, color 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .nav-button:hover {
+      background: #3498db;
+      color: #fff;
+      transform: scale(1.1);
+    }
+    #prev-button {
+      left: 10px;
+    }
+    #next-button {
+      right: 10px;
+    }
+    /* زر العودة إلى الأعلى */
+    #back-to-top {
+      position: fixed;
+      bottom: 150px;
+      right: 20px;
+      z-index: 40;
+      display: none;
+      background: #3498db;
+      color: #fff;
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    #back-to-top:hover {
+      background: #2980b9;
+      transform: scale(1.1);
+    }
+    /* زر التقييم */
+    #rating-button {
+      position: fixed;
+      bottom: 200px;
+      right: 20px;
+      z-index: 40;
+      display: none;
+      background: #3498db;
+      color: #fff;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    #rating-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    #rating-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+      background: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+    }
+    #rating-stars {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    #rating-stars .star {
+      font-size: 2rem;
+      color: #ccc;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    #rating-stars .star:hover,
+    #rating-stars .star.active {
+      color: #ffcc00;
+    }
+    #rating-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #fff;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  </style>
+  <!-- نهاية أكواد CSS - تم الإبقاء على جميع الأسطر الأصلية -->
+  <!-- تفعيل AngularJS عن طريق تغليف الصفحة (لن يتم حذف أي جزء من الكود الأصلي) -->
+</head>
+<!-- إضافة ng-app و ng-controller لتغليف الكود داخل تطبيق AngularJS -->
+<body ng-app="menuApp" ng-controller="MenuController">
+  <!-- شاشة الاستقبال -->
+  <div id="splash-screen">
+    <div class="logo-container">
+      <img class="main-logo" src="https://i.imgur.com/eCo7Ams.png" alt="لوجو المطعم" loading="lazy">
+      <img class="second-logo" src="https://i.imgur.com/PNYGCQt.png" alt="لوجو إضافي" loading="lazy">
+    </div>
+    <div class="loading-text">
+      جارى عرض المنيو<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>
+    </div>
+  </div>
+  
+  <!-- حاوية عرض المنيو (PDF) -->
+  <div id="menu-container">
+    <div id="pdf-container"></div>
+  </div>
+  
+  <!-- شريط البحث مع إضافة ng-model -->
+  <div id="search-bar">
+    <input type="text" id="search-input" ng-model="searchTerm" placeholder="ابحث عن صنف...">
+  </div>
+  
+  <!-- أزرار التواصل (في أقصى اليمين بالأسفل) -->
+  <div id="contact-buttons">
+    <a href="https://www.facebook.com/kshtaw3asl2" class="contact-btn facebook">
+      <img src="https://i.imgur.com/21Jbxz1.png" alt="Facebook Logo" class="contact-logo">
+    </a>
+    <a href="https://www.instagram.com/eshta_w_asal/" class="contact-btn instagram">
+      <img src="https://i.imgur.com/M6ddot9.png" alt="Instagram Logo" class="contact-logo">
+    </a>
+    <a href="https://www.tiktok.com/@eshta.w.asal" class="contact-btn tiktok">
+      <img src="https://i.imgur.com/64V1c8k.png" alt="TikTok Logo" class="contact-logo">
+    </a>
+  </div>
+  
+  <!-- زر المصمم مع نص "designed by" فوق اللوجو (في أسفل اليسار) -->
+  <div id="designer-button">
+    <div class="designer-text">Designed by</div> <!-- النص فوق اللوجو -->
+    <a href="https://www.facebook.com/profile.php?id=100054792170666">
+      <img src="https://i.imgur.com/PNYGCQt.png" alt="Designer Button">
+    </a>
+  </div>
+  
+  <!-- زر الشكاوى والاقتراحات -->
+  <div id="suggestions-button">
+    للشكاوى والاقتراحات
+  </div>
+  
+  <!-- زر عناوين الفروع -->
+  <div id="branches-button">
+    عناوين الفروع
+  </div>
+  
+  <!-- زر العودة إلى الأعلى -->
+  <div id="back-to-top">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+  
+  <!-- زر التقييم -->
+  <div id="rating-button">
+    <i class="fas fa-star"></i> قيمنا
+  </div>
+  
+  <!-- نافذة التقييم -->
+  <div id="rating-overlay">
+    <div id="rating-content">
+      <button id="rating-close">X</button>
+      <h3>قيم تجربتك</h3>
+      <div id="rating-stars">
+        <span class="star" data-value="1"><i class="fas fa-star"></i></span>
+        <span class="star" data-value="2"><i class="fas fa-star"></i></span>
+        <span class="star" data-value="3"><i class="fas fa-star"></i></span>
+        <span class="star" data-value="4"><i class="fas fa-star"></i></span>
+        <span class="star" data-value="5"><i class="fas fa-star"></i></span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- نافذة الاقتراحات -->
+  <div id="suggestions-overlay">
+    <div id="suggestions-content">
+      <button id="suggestions-close">X</button>
+      <h3>الشكاوى والاقتراحات</h3>
+      <form id="suggestions-form" onsubmit="sendSuggestion(event)">
+        <input type="text" id="user-name" placeholder="اسمك">
+        <input type="email" id="user-email" placeholder="بريدك الإلكتروني">
+        <textarea id="suggestion-text" placeholder="اكتب اقتراحك أو شكواك هنا..." required></textarea>
+        <button type="submit">إرسال</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- نافذة عناوين الفروع -->
+  <div id="branches-overlay">
+    <div id="branches-content">
+      <button id="branches-close">X</button>
+      <h3>عناوين الفروع</h3>
+      <ul id="branches-list">
+        <li>الفرع الأول: الإسكندرية - العصافرة على البحر - تراس أليكس (مكان فندق وردة العصافرة للقوات المسلحة)</li>
+        <li>رقم التليفون: <a href="tel:035512806">035512806</a></li>
+        <br>
+        <li>الفرع الثاني: كوم حمادة - ش المزلقان البحرى - بجوار مطعم كاتشب</li>
+        <li>رقم التليفون: <a href="tel:01019265003">01019265003</a></li>
+        <br>
+        <li>الفرع الثالث: إيتاي البارود - ميدان الجامعة - بجوار مطعم راية الشام</li>
+        <li>رقم التليفون: <a href="tel:0453434027">0453434027</a> - <a href="tel:01555656403">01555656403</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- نافذة Modal لعرض الصورة المكبرة مع اسم الصنف -->
+  <div id="modal-overlay">
+    <div id="modal-content">
+      <button id="modal-close">X</button>
+      <button id="prev-button" class="nav-button">&lt;</button>
+      <button id="next-button" class="nav-button">&gt;</button>
+      <img id="modal-image" src="" alt="Enlarged Image">
+      <div id="modal-caption"></div>
+    </div>
+  </div>
+  
+  <!-- إخفاء شاشة الاستقبال بعد 5 ثوانٍ -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      setTimeout(() => {
+        document.getElementById('splash-screen').style.display = 'none';
+        document.getElementById('menu-container').style.display = 'block';
+        document.getElementById('designer-button').style.display = 'block';
+        document.getElementById('search-bar').style.display = 'block';
+        document.getElementById('suggestions-button').style.display = 'block';
+        document.getElementById('branches-button').style.display = 'block';
+      }, 5000);
+    });
+  </script>
+  
+  <!-- تحميل مكتبة PDF.js من CDNJS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
+  <script>
+    // تهيئة EmailJS
+    (function() {
+      emailjs.init("IAep7euOv-Y4bUbz-"); // استبدل YOUR_PUBLIC_KEY بالمفتاح العام الخاص بك
+    })();
+
+    /* إضافة تعديل لتحسين معالجة الأخطاء:
+       تمت إضافة تنبيه للمستخدم في حال حدوث خطأ أثناء تحميل الـ PDF */
+    // تعريف مصفوفة أسماء الأصناف لكل صفحة
+    const productNames = [
+      // الصفحة الأولى
+      ["كيكة دبى"],
+      // الصفحة الثانية
+      ["الفنكوش", "الشقلوبة"],
+      // الصفحة الثالثة
+      [
+        "رز بلبن كلاسيك",
+        "رز بلبن بالمكسرات",
+        "رز بلبن بالفستق الحلبى",
+        "رز بلبن أوريو ونوتيلا",
+        "رز بلبن كيت كات وأوريو ونوتيلا",
+        "رز بلبن سكلانس",
+        "رز بلبن لوتس وكراميل",
+        "رز بلبن بقطع المانجو",
+        "رز بلبن بالآيس كريم",
+        "رز بلبن بالقشطة والعسل",
+        "رز بلبن بالفواكه",
+        "رز بلبن مودو",
+        "رز بلبن عمورى",
+        "رز بلبن شهر العسل",
+        "جريمة رز بلبن",
+        "رعشة قشطة وعسل",
+        "القنبلة"
+      ],
+      // الصفحة الرابعة
+      [
+        "طاجن أم على كلاسيك",
+        "طاجن أم على الغندورة",
+        "طاجن أم على السنيورة",
+        "طاجن أم على الرايقة",
+        "طاجن أم على الدلوعه",
+        "طاجن أم على أيس كريم",
+        "طاجن أم على لوتس",
+        "طاجن أم على البركة",
+        "كسكسى باللبن والقشطة",
+        "كسكسى باللبن والمكسرات والقشطة والبسبوسة",
+        "بليلة باللبن والقشطة",
+        "بليلة باللبن والمكسرات والقشطة والبسبوسة"
+      ],
+      // الصفحة الخامسة (تم التعديل)
+      [
+        "طاجن بطاطا قشطة وعسل",
+        "طاجن بطاطا قشطة ولبن",
+        "طاجن بطاطا مكسرات",
+        "طاجن بطاطا بالأيس كريم",
+        "طاجن بطاطا لوتس",
+        "طاجن بطاطا نوتيلا وكراميل",
+        "طاجن بطاطا كيت كات أوريو",
+        "طاجن بطاطا بالفواكه",
+        "سالانكتيه لوتس",
+        "سالانكتيه فواكه",
+        "سالانكتيه أوريو نوتيلا",
+        "سالانكتيه مانجا"
+      ],
+      // الصفحة السادسة
+      [
+        "النعنوشة",
+        "قشطوطة مكسرات",
+        "قشطوطة فواكه",
+        "قشطوطة لوتس",
+        "قشطوطة كراميل",
+        "قشطوطة أوريو نوتيلا",
+        "قشطوطة مانجا",
+        "قشطوطة ميكس",
+        "قشطوطة روشيه",
+        "قشطوطة رفاييلو"
+      ],
+      // الصفحة السابعة
+      [
+        "جيلى",
+        "جيلى كاستر",
+        "كاستر",
+        "كريم كراميل",
+        "كبسولة أربجيه",
+        "المتسهوكه",
+        "مولتن كيك",
+        "فادج",
+        "كاب أوريو",
+        "مسخسخة فادج",
+        "كشرى فواكه",
+        "كشرى لوتس",
+        "كشرى أوريو نوتيلا",
+        "كشرى مانجا"
+      ],
+      // الصفحة الثامنة
+      [
+        "طاجن الحنين",
+        "طاجن بوريو نوتيلا",
+        "طاجن أوريو نوتيلا",
+        "طاجن توينكز نوتيلا",
+        "طاجن هوهوز نوتيلا",
+        "طاجن براونيز نوتيلا",
+        "طاجن ميكس نوتيلا",
+        "طاجن لوتس نوتيلا",
+        "آيس كوفى أوريو",
+        "آيس كوفى كيت كات",
+        "آيس كوفى مالتيزر",
+        "آيس كوفى لوتس"
+      ],
+      // الصفحة التاسعة
+      [
+        "عصاير فريش",
+        "مانجو",
+        "شجرة مانجو",
+        "فراولة",
+        "جوافة",
+        "موز",
+        "بطيخ",
+        "برتقال",
+        "بلح باللبن",
+        "بلح شيكولاته",
+        "رمان",
+        "رمان حب",
+        "كنتالوب",
+        "كيوى",
+        "افوكادو",
+        "ليمون",
+        "ليمون نعناع",
+        "فروت سلاط"
+      ],
+      // الصفحة العاشرة
+      [
+        "ميلك شيك فانيليا",
+        "ميلك شيك شيكولاته",
+        "ميلك شيك فراولة",
+        "ميلك شيك بطيخ",
+        "ميلك شيك مانجو",
+        "ميلك شيك بلوبيرى",
+        "ميلك شيك كولا",
+        "ميلك شيك أوريو",
+        "ميلك شيك كنافة",
+        "ميلك شيك ليمون نعناع",
+        "ميلك شيك توت",
+        "ميلك شيك كراميل",
+        "ميلك شيك لوتس"
+      ],
+      // الصفحة الحادية عشر
+      [
+        "سموزى بطيخ",
+        "سموزى أناناس",
+        "سموزى توت",
+        "سموزى رمان",
+        "سموزى برتقال",
+        "سموزى تفاح",
+        "سموزى مانجو",
+        "سموزى ليمون نعناع",
+        "كيوى مانجو",
+        "بلح موز",
+        "موز فراولة",
+        "ميكس الروقان",
+        "فراولة مانجو",
+        "موز كراميل",
+        "ميكس فواكه"
+      ],
+      // الصفحة الثانية عشر
+      [
+        "زبادى توت",
+        "زبادى عسل",
+        "زبادى كراميل",
+        "زبادى مانجو",
+        "زبادى فراولة",
+        "زبادى أوريو",
+        "زبادى شيكولاته",
+        "زبادى فواكه قطع",
+        "موهيتو",
+        "بلو بيرى",
+        "ميكس بيرى",
+        "سان شاين",
+        "آيس كريم شرقى",
+        "آيس كريم سبيشال",
+        "آيس كريم فستق"
+      ],
+      // الصفحة الثالثة عشر
+      [
+        "عصاير شوكلاته",
+        "أوريو",
+        "أوريو مانجو",
+        "أوريو ميكس",
+        "كيت كات",
+        "مالتيزر",
+        "تويكس وايت",
+        "نسكافيه",
+        "كيندر",
+        "بوريو",
+        "بوريو موز",
+        "توينكيز مانجو",
+        "لوتس"
+      ]
+    ];
+
+    // عناوين الصفحات الرئيسية
+    const pageTitles = [
+      "كيكة دبى",
+      "الفنكوش والشقلوبة",
+      "عالم الرز بلبن",
+      "عالم أم على وميكسات الدفا",
+      "عالم البطاطا والسالانكتيه",
+      "القشطوطة",
+      "دزيرت و كشرى حلو",
+      "طواجن السعادة والآيس كوفي",
+      "عصائر فريش",
+      "ميلك شيك",
+      "ميكس جوس وسموزي",
+      "زبادى خلاط & آيس كريم & موهيتو",
+      "شوكليت جوس"
+    ];
+
+    // متغير لتتبع الصفحة الحالية في المودال
+    let currentPage = 0;
+
+    // رابط ملف PDF
+    const url = 'https://cdn.jsdelivr.net/gh/elghonemy1/2eshta-asal-menu/2eshta%26asal%20menu.pdf';
+    const container = document.getElementById('pdf-container');
+    let pdfDoc = null;
+
+    pdfjsLib.getDocument(url).promise.then(function(pdf) {
+      pdfDoc = pdf;
+      console.log('تم تحميل PDF، عدد الصفحات:', pdfDoc.numPages);
+      for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+        pdfDoc.getPage(pageNum).then(function(page) {
+          let unscaledViewport = page.getViewport({ scale: 1 });
+          // استخدام عرض الشاشة بالكامل مع تحسين الجودة
+          let desiredScale = (window.innerWidth * window.devicePixelRatio) / unscaledViewport.width;
+          let viewport = page.getViewport({ scale: desiredScale });
+
+          let canvas = document.createElement('canvas');
+          canvas.className = 'pdf-page';
+          canvas.id = `page-${pageNum}`; // إضافة ID لكل صفحة
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          canvas.style.width = viewport.width / window.devicePixelRatio + "px";
+          canvas.style.height = viewport.height / window.devicePixelRatio + "px";
+          let ctx = canvas.getContext('2d');
+          container.appendChild(canvas);
+
+          let renderContext = {
+            canvasContext: ctx,
+            viewport: viewport
+          };
+          page.render(renderContext).promise.then(function() {
+            console.log('تم عرض الصفحة رقم:', pageNum);
+          });
+
+          // عند النقر على الصفحة، عرض المودال مع الصورة المكبرة واسم الصنف الرئيسي
+          canvas.addEventListener('click', function() {
+            currentPage = pageNum - 1; // تحديث الصفحة الحالية
+            updateModal();
+            document.getElementById('modal-overlay').style.display = 'flex';
+          });
+        });
+      }
+    }).catch(function(error) {
+      console.error('خطأ في تحميل الـ PDF:', error);
+      // تعديل: تم إضافة تنبيه للمستخدم في حال حدوث خطأ أثناء تحميل الـ PDF
+      alert('حدث خطأ أثناء تحميل القائمة. يرجى المحاولة في وقت لاحق.');
+    });
+
+    // تحديث المودال بالصفحة الحالية
+    function updateModal() {
+      const canvas = document.getElementById(`page-${currentPage + 1}`);
+      const dataURL = canvas.toDataURL();
+      document.getElementById('modal-image').src = dataURL;
+      document.getElementById('modal-caption').innerText = pageTitles[currentPage];
+    }
+
+    // التنقل إلى الصفحة السابقة
+    document.getElementById('prev-button').addEventListener('click', function() {
+      if (currentPage > 0) {
+        currentPage--;
+        updateModal();
+      }
+    });
+
+    // التنقل إلى الصفحة التالية
+    document.getElementById('next-button').addEventListener('click', function() {
+      if (currentPage < pdfDoc.numPages - 1) {
+        currentPage++;
+        updateModal();
+      }
+    });
+
+    // إغلاق المودال
+    document.getElementById('modal-close').addEventListener('click', function() {
+      document.getElementById('modal-overlay').style.display = 'none';
+    });
+
+    // دالة توحيد الحروف العربية للبحث (إضافة جديدة)
+    function normalizeArabic(text) {
+      return text
+        .replace(/[أآإ]/g, 'ا')
+        .replace(/ة/g, 'ه')
+        .replace(/ـ/g, '')
+        .replace(/[ًٌٍَُِّ~ْ]/g, '');
+    }
+
+    // وظيفة البحث (تم التعديل)
+    document.getElementById('search-input').addEventListener('input', function(e) {
+      const searchTerm = normalizeArabic(e.target.value.toLowerCase());
+      const pages = document.querySelectorAll('.pdf-page');
+      pages.forEach((page, index) => {
+        const pageProducts = productNames[index];
+        const normalizedProducts = pageProducts.map(p => normalizeArabic(p.toLowerCase()));
+        if (normalizedProducts.some(product => product.includes(searchTerm))) {
+          page.style.display = 'block';
+          if (searchTerm !== "") {
+            page.scrollIntoView({ behavior: 'smooth' });
+          }
+        } else {
+          page.style.display = 'none';
+        }
+      });
+    });
+
+    // فتح نافذة الاقتراحات
+    document.getElementById('suggestions-button').addEventListener('click', function() {
+      document.getElementById('suggestions-overlay').style.display = 'flex';
+    });
+
+    // إغلاق نافذة الاقتراحات
+    document.getElementById('suggestions-close').addEventListener('click', function() {
+      document.getElementById('suggestions-overlay').style.display = 'none';
+    });
+
+    // إرسال الاقتراحات باستخدام EmailJS
+    function sendSuggestion(event) {
+      event.preventDefault(); // منع إعادة تحميل الصفحة
+      const userName = document.getElementById('user-name').value;
+      const userEmail = document.getElementById('user-email').value;
+      const suggestionText = document.getElementById('suggestion-text').value;
+
+      if (suggestionText.trim() !== "") {
+        emailjs.send("service_oy9eizp", "template_zvnbvjk", {
+          name: userName,        // اسم المستخدم
+          email: userEmail,      // البريد الإلكتروني
+          message: suggestionText // نص الاقتراح
+        }).then(function(response) {
+          alert('تم إرسال اقتراحك بنجاح! شكرًا لك.');
+          // مسح الحقول بعد الإرسال
+          document.getElementById('user-name').value = "";
+          document.getElementById('user-email').value = "";
+          document.getElementById('suggestion-text').value = "";
+          // إغلاق نافذة الاقتراحات
+          document.getElementById('suggestions-overlay').style.display = 'none';
+        }, function(error) {
+          alert('حدث خطأ أثناء إرسال الاقتراح. يرجى المحاولة مرة أخرى.');
+        });
+      } else {
+        alert("يرجى كتابة اقتراحك أو شكواك قبل الإرسال.");
+      }
+    }
+
+    // فتح نافذة عناوين الفروع
+    document.getElementById('branches-button').addEventListener('click', function() {
+      document.getElementById('branches-overlay').style.display = 'flex';
+    });
+
+    // إغلاق نافذة عناوين الفروع
+    document.getElementById('branches-close').addEventListener('click', function() {
+      document.getElementById('branches-overlay').style.display = 'none';
+    });
+
+    // إظهار وإخفاء زر العودة إلى الأعلى
+    window.addEventListener('scroll', function() {
+      const backToTopButton = document.getElementById('back-to-top');
+      if (window.scrollY > 300) {
+        backToTopButton.style.display = 'block';
+      } else {
+        backToTopButton.style.display = 'none';
+      }
+    });
+
+    // العودة إلى الأعلى عند النقر على الزر
+    document.getElementById('back-to-top').addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // إظهار زر التقييم عند الوصول إلى آخر صفحة
+    function checkLastPage() {
+      if (currentPage === pdfDoc.numPages - 1) {
+        document.getElementById('rating-button').style.display = 'block';
+      } else {
+        document.getElementById('rating-button').style.display = 'none';
+      }
+    }
+
+    // فتح نافذة التقييم
+    document.getElementById('rating-button').addEventListener('click', function() {
+      document.getElementById('rating-overlay').style.display = 'flex';
+    });
+
+    // إغلاق نافذة التقييم
+    document.getElementById('rating-close').addEventListener('click', function() {
+      document.getElementById('rating-overlay').style.display = 'none';
+    });
+
+    // تقييم النجوم
+    const stars = document.querySelectorAll('#rating-stars .star');
+    stars.forEach(star => {
+      star.addEventListener('click', function() {
+        const value = this.getAttribute('data-value');
+        stars.forEach((s, index) => {
+          if (index < value) {
+            s.classList.add('active');
+          } else {
+            s.classList.remove('active');
+          }
+        });
+        alert(`شكرًا لتقييمك! قيمتك: ${value} نجوم`);
+        document.getElementById('rating-overlay').style.display = 'none';
+      });
+    });
+
+    // التحقق من الصفحة الحالية عند التنقل
+    document.getElementById('next-button').addEventListener('click', checkLastPage);
+    document.getElementById('prev-button').addEventListener('click', checkLastPage);
+  </script>
+  
+  <!-- تهيئة تطبيق AngularJS (غلاف بسيط دون تغيير منطق الكود الأصلي) -->
+  <script>
+    angular.module('menuApp', [])
+      .controller('MenuController', ['$scope', function($scope) {
+        // يمكن إضافة وظائف AngularJS هنا لاحقًا دون التأثير على الكود الأصلي
+        $scope.searchTerm = "";
+      }]);
+  </script>
+</body>
+</html>
