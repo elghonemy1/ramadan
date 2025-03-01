@@ -1,5 +1,5 @@
 <style>
-    /* التنسيق الأساسي */
+    /* التنسيق الأساسي المعدل */
     .ramadan-decor {
         position: fixed;
         top: -5px;
@@ -8,17 +8,16 @@
         height: 150px;
         display: flex;
         justify-content: center;
-        gap: 0;
         z-index: 20;
         pointer-events: none;
         overflow: hidden;
     }
 
     .lantern {
-        width: 400px;
-        height: 150px;
+        width: 100%; /* امتداد لعرض الصفحة */
+        height: 100%;
         background: url('https://i.imgur.com/KJ3u5K8.png') no-repeat center;
-        background-size: contain;
+        background-size: cover; /* تغطية المساحة مع الحفاظ على النسب */
         animation: gentleFloat 3s ease-in-out infinite;
     }
 
@@ -32,10 +31,6 @@
     @media (max-width: 768px) {
         .ramadan-decor {
             top: -3px;
-            height: 100px;
-        }
-        .lantern {
-            width: 250px;
             height: 100px;
         }
     }
