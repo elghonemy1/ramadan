@@ -615,21 +615,34 @@
             font-family: 'Tajawal', sans-serif;
             direction: rtl;
             position: fixed;
-            bottom: 70px; /* مكان مناسب للجوال */
+            bottom: 70px;
             left: 10px;
             z-index: 35;
             background: #fba919;
-            padding: 4px 10px; /* تصغير الحشو */
-            border-radius: 15px; /* تقليل استدارة الحواف */
+            padding: 5px 15px;
+            border-radius: 15px;
             box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-            font-size: 12px; /* تصغير حجم الخط */
+            font-size: 12px;
             animation: gentlePulse 2s infinite, slideIn 0.8s ease-out;
             border: none;
-            cursor: pointer;">
-  <span style="color: white; font-weight: 600;">
-    <span id="visitor-count">...</span>
-  </span>
-  <span style="color: rgba(255,255,255,0.9);">👀زيارة</span>
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;">
+  
+  <!-- الأيقونة -->
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="2">
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+    <circle cx="12" cy="12" r="3"></circle>
+  </svg>
+
+  <!-- النص -->
+  <div style="display: flex; align-items: center; gap: 5px;">
+    <span style="color: white; font-weight: 600;">
+      <span id="visitor-count">...</span>
+    </span>
+    <span style="color: rgba(255,255,255,0.9);">زيارة</span>
+  </div>
 </div>
 
 <style>
@@ -639,19 +652,16 @@
     50% { transform: scale(1.03); }
   }
 
-  /* أنيميشن الظهور */
-  @keyframes slideIn {
-    0% { opacity: 0; transform: translateX(-10px); }
-    100% { opacity: 1; transform: translateX(0); }
-  }
-
   /* تصميم الجوال */
   @media (max-width: 768px) {
     .visitor-counter {
-      bottom: 60px; /* تصغير المسافة من الأسفل */
-      left: 8px;
-      padding: 3px 8px;
+      padding: 4px 12px;
       font-size: 11px;
+      gap: 6px;
+    }
+    .visitor-counter svg {
+      width: 14px;
+      height: 14px;
     }
   }
 </style>
