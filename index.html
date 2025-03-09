@@ -578,12 +578,10 @@
 <body ng-app="menuApp" ng-controller="MenuController">
   <!-- شاشة الاستقبال -->
   <div id="splash-screen">
-<div class="logo-container">
-  <img class="main-logo" src="https://i.imgur.com/eCo7Ams.png" alt="لوجو المطعم" loading="lazy">
-  <!-- الصورة الجديدة -->
-  <img class="fade-logo" src="https://i.imgur.com/Z7a1Gvp.png" alt="زينة رمضان" loading="lazy">
-  <img class="second-logo" src="https://i.imgur.com/PNYGCQt.png" alt="لوجو إضافي" loading="lazy">
-</div>
+    <div class="logo-container">
+      <img class="main-logo" src="https://i.imgur.com/eCo7Ams.png" alt="لوجو المطعم" loading="lazy">
+      <img class="second-logo" src="https://i.imgur.com/PNYGCQt.png" alt="لوجو إضافي" loading="lazy">
+    </div>
     <div class="loading-text">
       جارى عرض المنيو<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>
     </div>
@@ -610,9 +608,26 @@
     <a href="https://www.tiktok.com/@eshta.w.asal" class="contact-btn tiktok">
       <img src="https://i.imgur.com/64V1c8k.png" alt="TikTok Logo" class="contact-logo">
     </a>
-  </div>
-  
-  <!-- زر المصمم مع نص "designed by" فوق اللوجو (في أسفل اليسار) -->
+  </div>  
+<!-- عدد الزيارات -->
+<div class="visitor-counter" 
+     style="text-align: center; 
+            font-family: 'Tajawal', sans-serif; 
+            direction: rtl;
+            position: fixed;
+            bottom: 60px; /* فوق زر المصمم */
+            left: 10px;
+            z-index: 35; /* أعلى من زر المصمم */
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+  <span style="color: #e74c3c; font-weight: bold;">
+    <span id="visitor-count">...</span>
+  </span>
+  عدد زيارات المنيو 👀
+</div> 
+ <!-- زر المصمم مع نص "designed by" فوق اللوجو (في أسفل اليسار) -->
   <div id="designer-button">
     <div class="designer-text">Designed by</div> <!-- النص فوق اللوجو -->
     <a href="https://www.facebook.com/profile.php?id=100054792170666">
@@ -1174,5 +1189,42 @@
         $scope.searchTerm = "";
       }]);
   </script>
+<script type="module">
+  // استيراد مكتبات Firebase الضرورية
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
+  import { getDatabase, ref, onValue, set, increment } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
+
+  // تكوين Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyBYu8HZgnLOMzC58qcWbInnIV4QDMVnUfA",
+  authDomain: "eshta-ves.firebaseapp.com",
+  databaseURL: "https://eshta-ves-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "eshta-ves",
+  storageBucket: "eshta-ves.firebasestorage.app",
+  messagingSenderId: "6642490457",
+  appId: "1:6642490457:web:62e95e62cdec94824b2548",
+  measurementId: "G-NVKT8F8LFG"
+};
+
+  // بدء تشغيل Firebase
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+  const visitorCountRef = ref(database, 'totalVisits');
+  
+  // تحديث العداد مع كل زيارة
+  function updateVisitorCount() {
+    // زيادة العداد مع كل زيارة، حتى لو كانت من نفس الجهاز
+    set(visitorCountRef, increment(1));
+  }
+
+  // الاستماع لتغييرات عدد الزوار
+  onValue(visitorCountRef, (snapshot) => {
+    const visitorCount = snapshot.val() || 0;
+    document.getElementById('visitor-count').textContent = visitorCount.toLocaleString('ar-EG');
+  });
+
+  // تحديث العداد عند زيارة الصفحة
+  updateVisitorCount();
+</script>
 </body>
 </html>
