@@ -611,22 +611,50 @@
   </div>  
 <!-- عدد الزيارات -->
 <div class="visitor-counter" 
-     style="text-align: center; 
-            font-family: 'Tajawal', sans-serif; 
+     style="text-align: center;
+            font-family: 'Tajawal', sans-serif;
             direction: rtl;
             position: fixed;
-            bottom: 60px; /* فوق زر المصمم */
-            left: 10px;
-            z-index: 35; /* أعلى من زر المصمم */
-            background: rgba(255, 255, 255, 0.9);
-            padding: 8px 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-  <span style="color: #e74c3c; font-weight: bold;">
+            bottom: 80px; /* مكان مناسب للجوال */
+            left: 15px;
+            z-index: 35;
+            background: #fba919; /* اللون المطلوب */
+            padding: 8px 16px;
+            border-radius: 25px; /* حواف أكثر استدارة */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            font-size: 14px;
+            animation: pulse 2s infinite, slideIn 0.8s ease-out;
+            border: none;
+            cursor: pointer;">
+  <span style="color: white; font-weight: 700; /* نص أبيض للوضوح */">
     <span id="visitor-count">...</span>
   </span>
-  عدد زيارات المنيو 👀
-</div> 
+  <span style="color: rgba(255,255,255,0.9);">👀 زائر</span>
+</div>
+
+<style>
+  /* أنيميشن النبض */
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  /* أنيميشن الظهور */
+  @keyframes slideIn {
+    0% { opacity: 0; transform: translateX(-20px); }
+    100% { opacity: 1; transform: translateX(0); }
+  }
+
+  /* تصميم الجوال */
+  @media (max-width: 768px) {
+    .visitor-counter {
+      bottom: 70px;
+      left: 10px;
+      padding: 6px 12px;
+      font-size: 13px;
+    }
+  }
+</style>
  <!-- زر المصمم مع نص "designed by" فوق اللوجو (في أسفل اليسار) -->
   <div id="designer-button">
     <div class="designer-text">Designed by</div> <!-- النص فوق اللوجو -->
