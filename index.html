@@ -1,3 +1,4 @@
+
 <style>
     /* التنسيق الأساسي المعدل */
     .ramadan-decor {
@@ -776,8 +777,10 @@
     /* إضافة تعديل لتحسين معالجة الأخطاء:
        تمت إضافة تنبيه للمستخدم في حال حدوث خطأ أثناء تحميل الـ PDF */
     // تعريف مصفوفة أسماء الأصناف لكل صفحة
-    const productNames = [
-    // الصفحة 1 (الجديدة)
+const productNames = [
+    // الصفحة 1 الجديدة (الزمبهولا)
+    ["الزمبهولا"],
+// الصفحة 1
     [
         "فــــــــراولـــة مــانــجـــا",
         "مـــــــــــــــــــوز فراولـــــة",
@@ -989,28 +992,29 @@
 ];
 
     // عناوين الصفحات الرئيسية
-    const pageTitles = [
-      "عصاير رمضان",
-      "كيكة دبى",
-      "الفنكوش والشقلوبة",
-      "عالم الرز بلبن",
-      "عالم أم على وميكسات الدفا",
-      "عالم البطاطا والسالانكتيه",
-      "القشطوطة",
-      "دزيرت و كشرى حلو",
-      "طواجن السعادة والآيس كوفي",
-      "عصائر فريش",
-      "ميلك شيك",
-      "ميكس جوس وسموزي",
-      "زبادى خلاط & آيس كريم & موهيتو",
-      "شوكليت جوس"
-    ];
+const pageTitles = [
+    "الزمبهولا", 
+    "عصاير رمضان", 
+    "كيكة دبى", 
+    "الفنكوش والشقلوبة",
+    "عالم الرز بلبن",
+    "عالم أم على وميكسات الدفا",
+    "عالم البطاطا والسالانكتيه",
+    "القشطوطة",
+    "دزيرت و كشرى حلو",
+    "طواجن السعادة والآيس كوفي",
+    "عصائر فريش",
+    "ميلك شيك",
+    "ميكس جوس وسموزي",
+    "زبادى خلاط & آيس كريم & موهيتو",
+    "شوكليت جوس"
+];
 
     // متغير لتتبع الصفحة الحالية في المودال
     let currentPage = 0;
 
     // رابط ملف PDF
-    const url = 'https://cdn.jsdelivr.net/gh/elghonemy1/ramadan-pd@main/ramadan%20menu.pdf';
+    const url = 'https://cdn.jsdelivr.net/gh/elghonemy1/ramadan2pdf@main/ramadan%202.pdf';
     const container = document.getElementById('pdf-container');
     let pdfDoc = null;
 
@@ -1085,15 +1089,14 @@
       document.getElementById('modal-overlay').style.display = 'none';
     });
 
-    // دالة توحيد الحروف العربية للبحث (إضافة جديدة)
-    function normalizeArabic(text) {
-      return text
+function normalizeArabic(text) {
+    return text
+        .replace(/زمب[هه]ولا/gi, 'زمبهولا') // توحيد الاسم
         .replace(/[أآإ]/g, 'ا')
         .replace(/ة/g, 'ه')
         .replace(/ـ/g, '')
         .replace(/[ًٌٍَُِّ~ْ]/g, '');
-    }
-
+}
     // وظيفة البحث (تم التعديل)
     document.getElementById('search-input').addEventListener('input', function(e) {
       const searchTerm = normalizeArabic(e.target.value.toLowerCase());
