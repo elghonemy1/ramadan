@@ -780,8 +780,19 @@
 const productNames = [
     // الصفحة 1 الجديدة (الزمبهولا)
     ["الزمبهولا"],
+
+    // الصفحات القديمة (تم إزاحتها بمقدار 1)
+    [ // كانت الصفحة 1 → أصبحت 2
+        "فــــــــراولـــة مــانــجـــا",
+        "مـــــــــــــــــــوز فراولـــــة",
+        // ... كل الأصناف الأصلية
+    ],
+    [ // كانت الصفحة 2 → أصبحت 3
+        "كيكة دبى"
+    ],
+    // ... باقي الصفحات بنفس الترتيب
+];
 // الصفحة 1
-    [
         "فــــــــراولـــة مــانــجـــا",
         "مـــــــــــــــــــوز فراولـــــة",
         "مــــــــــــــــــوز كـراميــل",
@@ -1014,7 +1025,7 @@ const pageTitles = [
     let currentPage = 0;
 
     // رابط ملف PDF
-    const url = 'https://cdn.jsdelivr.net/gh/elghonemy1/ramadan2pdf@main/ramadan%202.pdf';
+    const url = 'https://cdn.jsdelivr.net/gh/elghonemy1/ramadan3@main/ramadan%202.pdf';
     const container = document.getElementById('pdf-container');
     let pdfDoc = null;
 
