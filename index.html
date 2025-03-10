@@ -1,3 +1,4 @@
+
 <style>
     /* التنسيق الأساسي المعدل */
     .ramadan-decor {
@@ -62,13 +63,11 @@
     }
 
     // تحميل الصورة مسبقًا (تأكد من استخدام الرابط المباشر للصورة الجديدة)
-    new Image().src = 'https://i.imgur.com/NEW_IMAGE_LINK.png';
+    new Image().src = 'https://i.imgur.com/KJ3u5K8.png';
 
     window.addEventListener('load', checkDate);
     setInterval(checkDate, 3600000); // التحقق كل ساعة
   </script>
-</body>
-</html>
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -1102,22 +1101,26 @@ function normalizeArabic(text) {
         .replace(/[ًٌٍَُِّ~ْ]/g, '');
 }
     // وظيفة البحث (تم التعديل)
-    document.getElementById('search-input').addEventListener('input', function(e) {
-      const searchTerm = normalizeArabic(e.target.value.toLowerCase());
-      const pages = document.querySelectorAll('.pdf-page');
-      pages.forEach((page, index) => {
-        const pageProducts = productNames[index];
-        const normalizedProducts = pageProducts.map(p => normalizeArabic(p.toLowerCase()));
-        if (normalizedProducts.some(product => product.includes(searchTerm))) {
-          page.style.display = 'block';
-          if (searchTerm !== "") {
-            page.scrollIntoView({ behavior: 'smooth' });
-          }
-        } else {
-          page.style.display = 'none';
-        }
-      });
-    });
+document.getElementById('search-input').addEventListener('input', function(e) {
+  const searchTerm = normalizeArabic(e.target.value.toLowerCase());
+  const pages = document.querySelectorAll('.pdf-page');
+  
+  pages.forEach((page, index) => {
+    const pageProducts = productNames[index];
+    if (!pageProducts) return; // تجنب الخطأ
+    
+    const normalizedProducts = pageProducts.map(p => normalizeArabic(p.toLowerCase()));
+    if (normalizedProducts.some(product => product.includes(searchTerm))) {
+      page.style.display = 'block';
+      if (searchTerm !== "") {
+        page.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      page.style.display = 'none';
+    }
+  });
+});
+
 
     // فتح نافذة الاقتراحات
     document.getElementById('suggestions-button').addEventListener('click', function() {
@@ -1234,7 +1237,7 @@ function normalizeArabic(text) {
         $scope.searchTerm = "";
       }]);
   </script>
-<script type="module">
+<<script type="module">
   // استيراد مكتبات Firebase الضرورية
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js";
   import { getDatabase, ref, onValue, set, increment } from "https://www.gstatic.com/firebasejs/9.19.1/firebase-database.js";
