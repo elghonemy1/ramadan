@@ -31,7 +31,7 @@
     /* تعديلات الجوال */
     @media (max-width: 768px) {
         .ramadan-decor {
-            top: -3px;
+            top: 0px;
             height: 100px;
         }
     }
@@ -1093,12 +1093,14 @@ const pageTitles = [
     });
 
 function normalizeArabic(text) {
-    return text
-        .replace(/زمب[هه]ولا/gi, 'زمبهولا') // توحيد الاسم
-        .replace(/[أآإ]/g, 'ا')
-        .replace(/ة/g, 'ه')
-        .replace(/ـ/g, '')
-        .replace(/[ًٌٍَُِّ~ْ]/g, '');
+  return text
+    .replace(/[إأٱآ]/g, 'ا')
+    .replace(/[ى]/g, 'ي')
+    .replace(/[ة]/g, 'ه')
+    .replace(/[ؤئ]/g, 'ء')
+    .replace(/[ًٌٍَُِّْ]/g, '') // إزالة التشكيل
+    .replace(/\s+/g, ' ') // إزالة المسافات الزائدة
+    .trim();
 }
     // وظيفة البحث (تم التعديل)
 document.getElementById('search-input').addEventListener('input', function(e) {
